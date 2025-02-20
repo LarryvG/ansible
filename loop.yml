@@ -1,0 +1,12 @@
+---
+- name: Copy a file to multiple locations
+  hosts: fedora
+  tasks:
+    - name: Copy File
+      copy:
+        src: myfile.conf
+        dest: "{{ item }}"
+      loop:
+        - /dira/myfile.conf
+        - /dirb/myfile.conf 
+        - /dirc/myfile.conf
