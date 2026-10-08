@@ -1,0 +1,17 @@
+---
+- hosts:  linux
+  become:  yes
+  become_method:  sudo
+
+
+  tasks:
+   - name: Run uname -m to check architecture
+      ansible.builtin.command: "uname -m"
+      register: architecture_result
+
+    - name: Display the captured output
+      ansible.builtin.debug:
+        msg: "This server is running on a {{ architecture_result.stdout }} architecture.
+
+
+

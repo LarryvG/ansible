@@ -1,0 +1,43 @@
+---
+- name: Deploy LAMP on Ubuntu hosts
+  hosts: ubuntu
+  become: yes
+  become_method: sudo
+  
+  pre_tasks:
+  - name: Update apt repository cache, if necessary
+    apt: update_cache=yes cache_valid_time=3600
+
+    
+  tasks:
+  
+  - name: Disable the firewall
+    service: name=ufw state=stopped
+
+
+  - name: 1. Create user toast
+    user:
+      name: toast
+      group: root
+      shell: /bin/bash
+      create_home: yes
+      state: present
+
+  - name: 2. Create subdirectory with permissions
+    file:
+       path: /home/toast/public_html
+       state: directory
+       owner: root
+       group: root
+       mode: 644
+       recurse: no
+ 
+  - name: 3. copy index file
+    ansible.builtin.copy:
+       src: /root/index.html
+       dest: /home/toast/public_html/index.html
+       owner: root
+       group: root
+       mode: 644
+
+

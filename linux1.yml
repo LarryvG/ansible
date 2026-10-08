@@ -1,0 +1,13 @@
+---
+- name: Run uname -a on Linux hosts
+  hosts: linux  # Change this to 'all' or your specific host group
+  gather_facts: false
+
+  tasks:
+    - name: Execute uname -a command
+      ansible.builtin.command: uname -a
+      register: uname_result
+
+    - name: Display the system information
+      ansible.builtin.debug:
+        msg: "{{ uname_result.stdout_lines }}"
